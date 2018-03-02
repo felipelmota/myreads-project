@@ -5,11 +5,11 @@ import PropTypes from 'prop-types'
 class Bookshelf extends Component {
 
     render() {
-        const { books } = this.props
+        const { books, onChange } = this.props
 
-        let readingBooks = [];
-        let wishBooks = [];
-        let readBooks = [];
+        let readingBooks = []
+        let wishBooks = []
+        let readBooks = []
 
         books.forEach(book => {
             switch(book.shelf) {
@@ -31,12 +31,10 @@ class Bookshelf extends Component {
             {
                 name: 'Currently Reading',
                 books : readingBooks
-            },
-            {
+            }, {
                 name: 'Want To Read',
                 books : wishBooks
-            },
-            {
+            }, {
                 name: 'Read',
                 books : readBooks
             }
@@ -52,7 +50,7 @@ class Bookshelf extends Component {
                             <div className="bookshelf-books">
                                 <ol className="books-grid">
                                     {shelf.books.map((shelfBook, index) => (
-                                        <Book key={index} book={shelfBook} />
+                                        <Book key={index} book={shelfBook} onChange={onChange}/>
                                     ))}
                                 </ol>
                             </div>
@@ -60,15 +58,15 @@ class Bookshelf extends Component {
                     ))}
                 </div>) :
                 (<div className="loading">Loading...</div>)
-            }
-            
+            }        
           </div>
         )
     }
 }
 
 Bookshelf.propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired
 }
 
 export default Bookshelf

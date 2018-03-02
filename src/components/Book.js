@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Book extends Component {
 
     render() {
-        const { book } = this.props
+        const { book, onChange } = this.props
 
         return(
             <div className="book">
@@ -18,7 +17,9 @@ class Book extends Component {
                         }}>
                 </div>
                 <div className="book-shelf-changer">
-                    <select>
+                    <select
+                        onChange={e => onChange(book, e.target.value)}
+                        value={book.shelf ? book.shelf : ''}>
                         <option value="none" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
@@ -36,6 +37,7 @@ class Book extends Component {
 
 Book.propType = {
     book: PropTypes.object.isRequired,
+    onChange: PropTypes.func
 }
 
 export default Book
