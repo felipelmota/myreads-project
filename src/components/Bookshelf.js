@@ -7,38 +7,19 @@ class Bookshelf extends Component {
     render() {
         const { books, onChange } = this.props
 
-        let readingBooks = []
-        let wishBooks = []
-        let readBooks = []
-
-        books.forEach(book => {
-            switch(book.shelf) {
-                case 'currentlyReading':
-                    readingBooks.push(book)
-                    break
-                case 'wantToRead':
-                    wishBooks.push(book)
-                    break
-                case 'read':
-                    readBooks.push(book)
-                    break
-                default:
-                    break
-            }
-        })
-
-        const shelves = [
-            {
-                name: 'Currently Reading',
-                books : readingBooks
-            }, {
-                name: 'Want To Read',
-                books : wishBooks
-            }, {
-                name: 'Read',
-                books : readBooks
-            }
-        ]
+        const readingBooks = books.filter(book => book.shelf === 'currentlyReading');
+        const wishBooks = books.filter(book => book.shelf === 'wantToRead');
+        const readBooks = books.filter(book => book.shelf === 'read');
+        const shelves = [{
+            name: 'Currently Reading',
+            books : readingBooks
+        }, {
+            name: 'Want To Read',
+            books : wishBooks
+        }, {
+            name: 'Read',
+            books : readBooks
+        }]
         
         return(
           <div>

@@ -8,10 +8,11 @@ class BookSearch extends Component {
 
   state = {
     books: [],
-    currentBooks: []
+    currentBooks: [],
+    searchBooks: []
   }
 
-  componenDidMount() {
+  componentDidMount() {
     //Fetching all books on my shelf.
     BooksAPI.getAll().then( books => {
       const booksId = books.map(book => ({id: book.id, shelf: book.shelf}))
@@ -21,14 +22,30 @@ class BookSearch extends Component {
 
   onSearch = (ev) => {
     const value = ev.target.value
+    const { books, currentBooks } = this.state
 
     if (value) {
       BooksAPI.search(value).then( books => {
-        this.setState({ books: !books ? [] : books })
+        this.setState({ books: !books ? [] : books })        
+      }).catch((error) => {
+        this.setState({ books: [] })
       })
     } else {
       this.setState({ books: [] })
     }
+    
+    this.setState({
+      searchBooks: books.map((book, idx) => {
+        currentBooks.forEach(cur => {
+          if (cur.id === book.id) {
+            book.shelf = cur.shelf
+          }
+        })
+        return (
+          <li><Book key={book.id} onChange={this.onChange} book={book} /></li>
+        )
+      })
+    })
   }
 
   onChange = (book, shelf) => {
@@ -47,18 +64,7 @@ class BookSearch extends Component {
   }
  
   render() {
-    const { books, currentBooks } = this.state
-    let searchBooks = books.map((book, idx) => {
-      currentBooks.forEach(cur => {
-        if (cur.id === book.id) {
-          book.shelf = cur.shelf
-        }
-      })
-
-      return (
-        <li><Book key={idx} onChange={this.onChange} book={book} /></li>
-      )
-    })
+    const { searchBooks } = this.state
 
     return(
         <div className="search-books">
