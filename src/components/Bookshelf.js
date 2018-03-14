@@ -6,19 +6,18 @@ class Bookshelf extends Component {
 
     render() {
         const { books, onChange } = this.props
-
-        const readingBooks = books.filter(book => book.shelf === 'currentlyReading');
-        const wishBooks = books.filter(book => book.shelf === 'wantToRead');
-        const readBooks = books.filter(book => book.shelf === 'read');
+        
+        const filter = books => shelf => books.filter(b => b.shelf === shelf)
+        const filterBy = filter(books)
         const shelves = [{
             name: 'Currently Reading',
-            books : readingBooks
+            books : filterBy('currentlyReading')
         }, {
             name: 'Want To Read',
-            books : wishBooks
+            books : filterBy('wantToRead')
         }, {
             name: 'Read',
-            books : readBooks
+            books : filterBy('read')
         }]
         
         return(
@@ -31,7 +30,7 @@ class Bookshelf extends Component {
                             <div className="bookshelf-books">
                                 <ol className="books-grid">
                                     {shelf.books.map((shelfBook, index) => (
-                                        <Book key={index} book={shelfBook} onChange={onChange}/>
+                                        <li key={index}><Book book={shelfBook} onChange={onChange}/></li>
                                     ))}
                                 </ol>
                             </div>

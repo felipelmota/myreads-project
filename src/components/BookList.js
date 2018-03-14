@@ -10,12 +10,10 @@ class BookList extends Component {
         books: []
     }
 
-    componentDidMount() {
-        BooksAPI.getAll().then(books => {
-            this.setState({books: books})
-        })
+    async componentDidMount() {
+        const books = await BooksAPI.getAll()
+        this.setState({ books })
     }
-
     
     onShelfChange = (book, shelf) => {
         

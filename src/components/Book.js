@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-class Book extends Component {
+class Book extends PureComponent {
 
     render() {
         const { book, onChange } = this.props
@@ -20,8 +20,8 @@ class Book extends Component {
                 <div className="book-shelf-changer">
                     <select
                         onChange={e => onChange(book, e.target.value)}
-                        value={book.shelf ? book.shelf : ''}>
-                        <option value="none" disabled>Move to...</option>
+                        value={book.shelf ? book.shelf : 'none'}>
+                        <option value="" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
                         <option value="read">Read</option>
