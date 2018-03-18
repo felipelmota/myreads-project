@@ -25,7 +25,15 @@ class BookSearch extends Component {
 
     if (value) {
       BooksAPI.search(value).then( books => {
-        books.map(book => currentBooks.filter((b) => b.id === book.id).map(b => book.shelf = b.shelf));
+
+        books = books.map(book => {
+          currentBooks
+            .filter(b => b.id === book.id)
+            .map(b => book.shelf = b.shelf);
+        
+          return book;
+        });
+
         this.setState({ books: !books ? [] : books })        
       }).catch((error) => {
         this.setState({ books: [] })
